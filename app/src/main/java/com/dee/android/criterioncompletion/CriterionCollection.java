@@ -2,6 +2,11 @@ package com.dee.android.criterioncompletion;
 
 import android.content.Context;
 
+import com.opencsv.CSVReader;
+
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -21,11 +26,24 @@ public class CriterionCollection {
 
     private CriterionCollection(Context context) {
         mFilms = new ArrayList<>();
-        for (int i=0; i < 100; i++) {
-            Film film = new Film();
-            film.setTitle("Seven Samurai");
-            film.setRating(3);
-            mFilms.add(film);
+
+        String next[] = {};
+
+        try {
+            CSVReader reader = new CSVReader(new InputStreamReader(context.getAssets().open("full_criterion_collection_list.csv")));
+
+            for(;;) {
+                next = reader.readNext();
+                if (next != null) {
+                    Film film = new Film();
+                    film.setTitle(next[0]);
+                    mFilms.add(film);
+                } else {
+                    break;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
     }
