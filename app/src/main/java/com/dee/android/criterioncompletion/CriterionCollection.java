@@ -37,6 +37,9 @@ public class CriterionCollection {
                 if (next != null) {
                     Film film = new Film();
                     film.setTitle(next[0]);
+                    film.setDirector(next[1]);
+                    film.setYear(next[2]);
+                    film.setCountry(next[3]);
                     mFilms.add(film);
                 } else {
                     break;

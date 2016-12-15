@@ -58,12 +58,16 @@ public class ListAllFilmsFragment extends NavFragment {
 
         private final TextView mTitleTextView;
         private final CheckBox mHasWatchedCheckBox;
+        private final TextView mDirectorTextView;
+        private final TextView mYearTextView;
         private Film mFilm;
 
         public FilmHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_film, parent, false));
             itemView.setOnClickListener(this);
             mTitleTextView = (TextView) itemView.findViewById(R.id.film_title);
+            mDirectorTextView = (TextView) itemView.findViewById(R.id.film_director);
+            mYearTextView = (TextView) itemView.findViewById(R.id.film_year);
 
             mHasWatchedCheckBox = (CheckBox) itemView.findViewById(R.id.hasWatched);
             mHasWatchedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -78,8 +82,12 @@ public class ListAllFilmsFragment extends NavFragment {
             mFilm = film;
             mHasWatchedCheckBox.setChecked(mFilm.hasWatched());
             mTitleTextView.setText(mFilm.getTitle());
-            if (mFilm.hasWatched()) {
+            mDirectorTextView.setText(mFilm.getDirector());
+            mYearTextView.setText(mFilm.getYear());
+            if ( !mFilm.hasWatched() ) {
                 mTitleTextView.setTypeface(null, Typeface.BOLD);
+            } else {
+                mTitleTextView.setTypeface(null, Typeface.NORMAL);
             }
         }
 

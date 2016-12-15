@@ -9,6 +9,9 @@ public class Film {
     private float mRating;
     private boolean mHasWatched;
     private boolean mIsFavorite;
+    private String mCountry;
+    private String mDirector;
+    private String mYear;
 
     public Film() {
         mId = UUID.randomUUID();
@@ -52,5 +55,29 @@ public class Film {
 
     public void setFavorite(boolean favorite) {
         mIsFavorite = favorite;
+    }
+
+    public void setCountry(String country) {
+        mCountry = country;
+    }
+
+    public String getCountry() {
+        return mCountry;
+    }
+
+    public void setDirector(String director) {
+        mDirector = director;
+    }
+
+    public String getDirector() {
+        return mDirector;
+    }
+
+    public void setYear(String year) {
+        mYear = year;
+    }
+
+    public String getYear() {
+        return mYear;
     }
 }

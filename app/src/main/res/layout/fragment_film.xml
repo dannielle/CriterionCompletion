@@ -15,12 +15,14 @@
             android:layout_height="wrap_content"
             android:textSize="36sp"
             android:text="@string/title"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:layout_weight="5"/>
 
         <CheckBox
             android:id="@+id/film_detail_has_watched"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
 
     </LinearLayout>
 
@@ -35,7 +37,7 @@
 
     <Button
         android:id="@+id/film_detail_add_to_favorites"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/add_to_favorites"/>
 
