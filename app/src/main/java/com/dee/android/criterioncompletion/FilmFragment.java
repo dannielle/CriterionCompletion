@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import java.util.UUID;
@@ -16,6 +18,7 @@ public class FilmFragment extends Fragment {
     private TextView mTitleField;
     private CheckBox mHasWatchedCheckBox;
     private Button mFavoritesButton;
+    private RatingBar mRatingBar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,14 +35,30 @@ public class FilmFragment extends Fragment {
         mTitleField = (TextView) v.findViewById(R.id.film_detail_title);
         mTitleField.setText(mFilm.getTitle());
 
+        mRatingBar = (RatingBar) v.findViewById(R.id.rating_bar);
+        mRatingBar.setRating(mFilm.getRating());
+        mRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+                mFilm.setRating(v);
+            }
+        });
+
         mHasWatchedCheckBox = (CheckBox) v.findViewById(R.id.film_detail_has_watched);
         mHasWatchedCheckBox.setChecked(mFilm.hasWatched());
+        mHasWatchedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                mFilm.setHasWatched(b);
+            }
+        });
 
         mFavoritesButton = (Button) v.findViewById(R.id.film_detail_add_to_favorites);
         mFavoritesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mFilm.setFavorite(true);
+                view.setEnabled(false);
             }
         });
         mFavoritesButton.setEnabled(!mFilm.isFavorite());

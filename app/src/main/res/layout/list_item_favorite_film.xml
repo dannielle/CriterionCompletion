@@ -6,14 +6,7 @@
     <TextView
         android:id="@+id/film_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Film Title"/>
-
-    <TextView
-        android:id="@+id/film_rating"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Rating"/>
+        android:layout_height="wrap_content"/>
 
     <RatingBar
         android:id="@+id/rating_bar"

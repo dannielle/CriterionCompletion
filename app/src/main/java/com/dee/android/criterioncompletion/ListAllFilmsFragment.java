@@ -1,6 +1,7 @@
 package com.dee.android.criterioncompletion;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,9 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -59,7 +58,6 @@ public class ListAllFilmsFragment extends NavFragment {
 
         private final TextView mTitleTextView;
         private final CheckBox mHasWatchedCheckBox;
-        private final RatingBar mRatingBar;
         private Film mFilm;
 
         public FilmHolder(LayoutInflater inflater, ViewGroup parent) {
@@ -74,21 +72,15 @@ public class ListAllFilmsFragment extends NavFragment {
                     criterionCollection.watched(mFilm, b);
                 }
             });
-
-            mRatingBar = (RatingBar) itemView.findViewById(R.id.rating_bar);
-            mRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-                @Override
-                public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
-                    criterionCollection.rate(mFilm, v);
-                }
-            });
         }
 
         public void bind(Film film) {
             mFilm = film;
             mHasWatchedCheckBox.setChecked(mFilm.hasWatched());
             mTitleTextView.setText(mFilm.getTitle());
-            mRatingBar.setRating(mFilm.getRating());
+            if (mFilm.hasWatched()) {
+                mTitleTextView.setTypeface(null, Typeface.BOLD);
+            }
         }
 
         @Override

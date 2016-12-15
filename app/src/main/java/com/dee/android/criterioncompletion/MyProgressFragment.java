@@ -66,21 +66,18 @@ public class MyProgressFragment extends NavFragment {
     private class FilmHolder extends RecyclerView.ViewHolder {
 
         private final TextView mTitleTextView;
-        private final TextView mRatingTextView;
         private final RatingBar mRatingBarView;
         private Film mFilm;
 
         public FilmHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_watched_film, parent, false));
-            mTitleTextView = (TextView) itemView.findViewById(R.id.film_title_a);
-            mRatingTextView = (TextView) itemView.findViewById(R.id.film_rating_a);
+            mTitleTextView = (TextView) itemView.findViewById(R.id.film_title);
             mRatingBarView = (RatingBar) itemView.findViewById(R.id.rating_bar);
         }
 
         public void bind(Film film) {
             mFilm = film;
             mTitleTextView.setText(mFilm.getTitle());
-            mRatingTextView.setText(Float.toString(mFilm.getRating()));
             mRatingBarView.setRating(film.getRating());
         }
     }
