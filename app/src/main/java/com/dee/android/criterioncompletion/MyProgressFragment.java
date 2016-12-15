@@ -1,12 +1,9 @@
 package com.dee.android.criterioncompletion;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +12,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class MyProgressFragment extends Fragment {
+public class MyProgressFragment extends NavFragment {
 
     private RecyclerView mWatchedListRecyclerView;
     private CriterionCollection criterionCollection;
@@ -27,9 +24,7 @@ public class MyProgressFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_my_progress, container, false);
 
-        Toolbar toolbar = (Toolbar) v.findViewById(R.id.toolbar);
-        toolbar.setTitle("My Progress");
-        toolbar.setTitleTextColor(Color.WHITE);
+        setToolbar("My Progress", v);
 
         mProgressNumberView = (TextView) v.findViewById(R.id.progress_number);
 
