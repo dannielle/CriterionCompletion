@@ -58,20 +58,16 @@ public class FilmListFragment extends Fragment {
     private class FilmHolder extends RecyclerView.ViewHolder {
 
         private final TextView mTitleTextView;
-        private final TextView mRatingTextView;
         private final CheckBox mHasWatchedCheckBox;
         private final RatingBar mRatingBar;
         private Film mFilm;
-        private Button mAddToFavoritesButton;
 
         public FilmHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_film, parent, false));
             mTitleTextView = (TextView) itemView.findViewById(R.id.film_title);
-            mRatingTextView = (TextView) itemView.findViewById(R.id.film_rating);
 
             mHasWatchedCheckBox = (CheckBox) itemView.findViewById(R.id.hasWatched);
 
-            mAddToFavoritesButton = (Button) itemView.findViewById(R.id.add_to_favorites_button);
 
             mRatingBar = (RatingBar) itemView.findViewById(R.id.rating_bar);
         }
@@ -79,25 +75,15 @@ public class FilmListFragment extends Fragment {
         public void bind(Film film) {
             mFilm = film;
             mTitleTextView.setText(mFilm.getTitle());
-            mRatingTextView.setText(Float.toString(mFilm.getRating()));
             mRatingBar.setRating(mFilm.getRating());
 
             mHasWatchedCheckBox.setChecked(mFilm.hasWatched());
-            mAddToFavoritesButton.setEnabled(! mFilm.isFavorite());
 
             mHasWatchedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     criterionCollection.watched(mFilm, b);
                     Toast.makeText(getActivity(), Integer.toString(criterionCollection.getWatchedFilms().size()), Toast.LENGTH_LONG).show();
-                }
-            });
-
-            mAddToFavoritesButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Toast.makeText(getActivity(), "Added to Favorites", Toast.LENGTH_LONG).show();
-                    criterionCollection.fave(mFilm);
                 }
             });
 

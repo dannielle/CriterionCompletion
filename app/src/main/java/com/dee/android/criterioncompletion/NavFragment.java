@@ -27,13 +27,13 @@ public class NavFragment extends Fragment {
                 fragment = new ListAllFilmsFragment();
                 break;
             case 1:
-                fragment = new MyFavoritesFragment();
+                fragment = new MyRecsFragment();
                 break;
             case 2:
                 fragment = new MyProgressFragment();
                 break;
             case 3:
-                fragment = new MyProgressFragment();
+                fragment = new MyFavoritesFragment();
                 break;
             default:
                 fragment = new MyProgressFragment();
