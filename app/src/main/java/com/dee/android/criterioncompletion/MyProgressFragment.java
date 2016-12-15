@@ -3,6 +3,7 @@ package com.dee.android.criterioncompletion;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -14,7 +15,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class MyProgressFragment extends NavFragment {
+public class MyProgressFragment extends Fragment {
 
     private RecyclerView mWatchedListRecyclerView;
     private CriterionCollection criterionCollection;
