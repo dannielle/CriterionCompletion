@@ -12,7 +12,6 @@ import java.util.List;
 public class NavPagerActivity extends AppCompatActivity {
 
     private ViewPager mViewPager;
-    private List<NavFragment> mNavFragments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
