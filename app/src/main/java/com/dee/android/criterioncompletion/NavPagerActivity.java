@@ -29,7 +29,18 @@ public class NavPagerActivity extends AppCompatActivity {
 
             @Override
             public Fragment getItem(int position) {
-                return NavFragment.newInstance(position);
+                switch (position) {
+                    case 0:
+                        return new ListAllFilmsFragment();
+                    case 1:
+                        return new MyRecsFragment();
+                    case 2:
+                        return new MyProgressFragment();
+                    case 3:
+                        return new MyFavoritesFragment();
+                    default:
+                        return new MyProgressFragment();
+                }
             }
         });
 
