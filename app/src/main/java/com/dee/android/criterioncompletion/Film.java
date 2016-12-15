@@ -10,6 +10,10 @@ public class Film {
     private boolean mHasWatched;
     private boolean mIsFavorite;
 
+    public Film() {
+        mId = UUID.randomUUID();
+    }
+
     public String getTitle() {
         return mTitle;
     }

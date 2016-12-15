@@ -1,5 +1,6 @@
 package com.dee.android.criterioncompletion;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -54,7 +55,7 @@ public class ListAllFilmsFragment extends NavFragment {
         }
     }
 
-    private class FilmHolder extends RecyclerView.ViewHolder {
+    private class FilmHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private final TextView mTitleTextView;
         private final CheckBox mHasWatchedCheckBox;
@@ -63,34 +64,37 @@ public class ListAllFilmsFragment extends NavFragment {
 
         public FilmHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_film, parent, false));
+            itemView.setOnClickListener(this);
             mTitleTextView = (TextView) itemView.findViewById(R.id.film_title);
 
             mHasWatchedCheckBox = (CheckBox) itemView.findViewById(R.id.hasWatched);
-
-            mRatingBar = (RatingBar) itemView.findViewById(R.id.rating_bar);
-        }
-
-        public void bind(Film film) {
-            mFilm = film;
-            mTitleTextView.setText(mFilm.getTitle());
-            mRatingBar.setRating(mFilm.getRating());
-
-            mHasWatchedCheckBox.setChecked(mFilm.hasWatched());
-
             mHasWatchedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     criterionCollection.watched(mFilm, b);
-                    Toast.makeText(getActivity(), Integer.toString(criterionCollection.getWatchedFilms().size()), Toast.LENGTH_LONG).show();
                 }
             });
 
+            mRatingBar = (RatingBar) itemView.findViewById(R.id.rating_bar);
             mRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
                     criterionCollection.rate(mFilm, v);
                 }
             });
+        }
+
+        public void bind(Film film) {
+            mFilm = film;
+            mHasWatchedCheckBox.setChecked(mFilm.hasWatched());
+            mTitleTextView.setText(mFilm.getTitle());
+            mRatingBar.setRating(mFilm.getRating());
+        }
+
+        @Override
+        public void onClick(View view) {
+            Intent intent = FilmActivity.newIntent(getActivity(), mFilm.getId());
+            startActivity(intent);
         }
     }
 

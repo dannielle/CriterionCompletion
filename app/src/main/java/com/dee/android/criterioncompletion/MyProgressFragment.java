@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -18,11 +19,13 @@ public class MyProgressFragment extends NavFragment {
     private CriterionCollection criterionCollection;
     private WatchedFilmsAdapter mAdapter;
     private TextView mProgressNumberView;
+    private ProgressBar myProgressBar;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_my_progress, container, false);
+        criterionCollection = CriterionCollection.get(getActivity());
 
         setToolbar("My Progress", v);
 
@@ -30,6 +33,9 @@ public class MyProgressFragment extends NavFragment {
 
         mWatchedListRecyclerView = (RecyclerView) v.findViewById(R.id.watched_films_recycler_view);
         mWatchedListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        myProgressBar = (ProgressBar) v.findViewById(R.id.my_progress_bar);
+        myProgressBar.setMax(criterionCollection.getFilms().size());
 
         updateUI();
 
@@ -43,10 +49,11 @@ public class MyProgressFragment extends NavFragment {
     }
 
     private void updateUI() {
-        criterionCollection = CriterionCollection.get(getActivity());
         List<Film> films = criterionCollection.getWatchedFilms();
 
-        mProgressNumberView.setText(Integer.toString(criterionCollection.getWatchedFilms().size()));
+        int numFilmsWatched = criterionCollection.getWatchedFilms().size();
+        mProgressNumberView.setText(Integer.toString(numFilmsWatched));
+        myProgressBar.setProgress(numFilmsWatched);
 
         if (mAdapter == null) {
             mAdapter = new WatchedFilmsAdapter(films);

@@ -19,6 +19,15 @@
         android:layout_height="wrap_content"
         android:text="Your Progress is:"/>
 
+
+    <ProgressBar
+        android:id="@+id/my_progress_bar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="false"
+        android:progress="0"/>
+
     <TextView
         android:id="@+id/progress_number"
         android:layout_width="wrap_content"
