@@ -1,12 +1,15 @@
 package com.dee.android.criterioncompletion;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -20,6 +23,12 @@ public class ListAllFilmsFragment extends NavFragment {
     private RecyclerView mFilmListRecyclerView;
     private ListAllFilmsAdapter mAdapter;
     private CriterionCollection criterionCollection;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Nullable
     @Override
@@ -40,6 +49,12 @@ public class ListAllFilmsFragment extends NavFragment {
     public void onResume() {
         super.onResume();
         updateUI();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_all_films, menu);
     }
 
     private void updateUI() {
@@ -74,6 +89,7 @@ public class ListAllFilmsFragment extends NavFragment {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     criterionCollection.watched(mFilm, b);
+                    bind(mFilm);
                 }
             });
         }
@@ -86,8 +102,10 @@ public class ListAllFilmsFragment extends NavFragment {
             mYearTextView.setText(mFilm.getYear());
             if ( !mFilm.hasWatched() ) {
                 mTitleTextView.setTypeface(null, Typeface.BOLD);
+                itemView.setBackgroundColor(Color.WHITE);
             } else {
                 mTitleTextView.setTypeface(null, Typeface.NORMAL);
+                itemView.setBackgroundColor(Color.LTGRAY);
             }
         }
 
