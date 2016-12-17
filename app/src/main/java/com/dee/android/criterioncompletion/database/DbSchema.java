@@ -13,6 +13,7 @@ public class DbSchema {
             public static final String COUNTRY = "country";
             public static final String IS_FAVORITE = "is_favorite";
             public static final String HAS_WATCHED = "has_watched";
+            public static final String RATING = "rating";
         }
     }
 }

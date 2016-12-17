@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.database.CursorWrapper;
 
 import com.dee.android.criterioncompletion.Film;
+import com.dee.android.criterioncompletion.database.DbSchema.FilmTable.Cols;
 
 import java.util.UUID;
 
@@ -14,13 +15,14 @@ public class FilmCursorWrapper extends CursorWrapper {
     }
 
     public Film getFilm() {
-        String uuidString = getString(getColumnIndex(DbSchema.FilmTable.Cols.UUID));
-        String title = getString(getColumnIndex(DbSchema.FilmTable.Cols.TITLE));
-        String year = getString(getColumnIndex(DbSchema.FilmTable.Cols.YEAR));
-        String director = getString(getColumnIndex(DbSchema.FilmTable.Cols.DIRECTOR));
-        String country = getString(getColumnIndex(DbSchema.FilmTable.Cols.COUNTRY));
-        int isFavorite = getInt(getColumnIndex(DbSchema.FilmTable.Cols.IS_FAVORITE));
-        int hasWatched = getInt(getColumnIndex(DbSchema.FilmTable.Cols.HAS_WATCHED));
+        String uuidString = getString(getColumnIndex(Cols.UUID));
+        String title = getString(getColumnIndex(Cols.TITLE));
+        String year = getString(getColumnIndex(Cols.YEAR));
+        String director = getString(getColumnIndex(Cols.DIRECTOR));
+        String country = getString(getColumnIndex(Cols.COUNTRY));
+        int isFavorite = getInt(getColumnIndex(Cols.IS_FAVORITE));
+        int hasWatched = getInt(getColumnIndex(Cols.HAS_WATCHED));
+        float rating = getFloat(getColumnIndex(Cols.RATING));
 
         Film film = new Film(UUID.fromString(uuidString));
         film.setTitle(title);
@@ -29,6 +31,7 @@ public class FilmCursorWrapper extends CursorWrapper {
         film.setCountry(country);
         film.setFavorite(isFavorite == 1);
         film.setHasWatched(hasWatched == 1);
+        film.setRating(rating);
 
         return film;
     }

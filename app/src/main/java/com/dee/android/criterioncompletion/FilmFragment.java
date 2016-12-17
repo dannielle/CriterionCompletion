@@ -67,7 +67,6 @@ public class FilmFragment extends Fragment {
                 view.setEnabled(false);
             }
         });
-        mFavoritesButton.setEnabled(!mFilm.isFavorite());
 
         return v;
     }

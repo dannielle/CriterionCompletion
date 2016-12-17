@@ -61,6 +61,14 @@ public class MyFavoritesFragment extends NavFragment {
             super(inflater.inflate(R.layout.list_item_favorite_film, parent, false));
             mTitleTextView = (TextView) itemView.findViewById(R.id.film_title);
             mRatingBarView = (RatingBar) itemView.findViewById(R.id.rating_bar);
+
+            mRatingBarView.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                @Override
+                public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+                    mFilm.setRating(v);
+                    criterionCollection.updateFilmInDb(mFilm);
+                }
+            });
         }
 
         public void bind(Film film) {

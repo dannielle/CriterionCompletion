@@ -32,7 +32,8 @@ public class FilmBaseHelper extends SQLiteOpenHelper {
                 DbSchema.FilmTable.Cols.DIRECTOR + ", " +
                 DbSchema.FilmTable.Cols.COUNTRY + ", " +
                 DbSchema.FilmTable.Cols.IS_FAVORITE + ", " +
-                DbSchema.FilmTable.Cols.HAS_WATCHED +
+                DbSchema.FilmTable.Cols.HAS_WATCHED + ", " +
+                DbSchema.FilmTable.Cols.RATING +
                 ")"
         );
 
@@ -74,6 +75,7 @@ public class FilmBaseHelper extends SQLiteOpenHelper {
         cv.put(DbSchema.FilmTable.Cols.COUNTRY, film.getCountry());
         cv.put(DbSchema.FilmTable.Cols.IS_FAVORITE, film.isFavorite() ? 1 : 0);
         cv.put(DbSchema.FilmTable.Cols.HAS_WATCHED, film.hasWatched() ? 1 : 0);
+        cv.put(DbSchema.FilmTable.Cols.RATING, film.getRating());
         return cv;
     }
 
