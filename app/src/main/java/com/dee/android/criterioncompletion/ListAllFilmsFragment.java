@@ -88,8 +88,7 @@ public class ListAllFilmsFragment extends NavFragment {
             mHasWatchedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    mFilm.setHasWatched(b);
-                    criterionCollection.updateFilmInDb(mFilm);
+                    criterionCollection.watched(mFilm, b);
                     bind(mFilm);
                 }
             });

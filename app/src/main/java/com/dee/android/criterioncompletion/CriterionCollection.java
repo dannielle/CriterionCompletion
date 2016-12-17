@@ -91,6 +91,17 @@ public class CriterionCollection {
 
     public void watched(Film film, boolean b) {
         film.setHasWatched(b);
+        updateFilmInDb(film);
+    }
+
+    public void rate(Film film, float v) {
+        film.setRating(v);
+        updateFilmInDb(film);
+    }
+
+    public void isFavorite(Film film, boolean b) {
+        film.setFavorite(b);
+        updateFilmInDb(film);
     }
 
     public List<Film> getWatchedFilms() {
@@ -129,7 +140,4 @@ public class CriterionCollection {
         return watchedFilms;
     }
 
-    public void rate(Film film, float v) {
-        film.setRating(v);
-    }
 }

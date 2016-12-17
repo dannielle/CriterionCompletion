@@ -43,8 +43,7 @@ public class FilmFragment extends Fragment {
         mRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
-                mFilm.setRating(v);
-                criterionCollection.updateFilmInDb(mFilm);
+                criterionCollection.rate(mFilm, v);
             }
         });
 
@@ -53,17 +52,16 @@ public class FilmFragment extends Fragment {
         mHasWatchedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                mFilm.setHasWatched(b);
-                criterionCollection.updateFilmInDb(mFilm);
+                criterionCollection.watched(mFilm, b);
             }
         });
 
         mFavoritesButton = (Button) v.findViewById(R.id.film_detail_add_to_favorites);
+        mFavoritesButton.setEnabled(! mFilm.isFavorite());
         mFavoritesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mFilm.setFavorite(true);
-                criterionCollection.updateFilmInDb(mFilm);
+                criterionCollection.isFavorite(mFilm, true);
                 view.setEnabled(false);
             }
         });

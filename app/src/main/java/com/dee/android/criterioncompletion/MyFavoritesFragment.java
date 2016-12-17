@@ -65,8 +65,7 @@ public class MyFavoritesFragment extends NavFragment {
             mRatingBarView.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
-                    mFilm.setRating(v);
-                    criterionCollection.updateFilmInDb(mFilm);
+                    criterionCollection.rate(mFilm, v);
                 }
             });
         }
