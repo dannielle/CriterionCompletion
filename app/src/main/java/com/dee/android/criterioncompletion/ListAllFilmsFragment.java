@@ -1,5 +1,6 @@
 package com.dee.android.criterioncompletion;
 
+import android.app.SearchManager;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,6 +18,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ListAllFilmsFragment extends NavFragment {
@@ -23,11 +26,22 @@ public class ListAllFilmsFragment extends NavFragment {
     private RecyclerView mFilmListRecyclerView;
     private ListAllFilmsAdapter mAdapter;
     private CriterionCollection criterionCollection;
+    private SearchView mSearchView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        Intent intent = getActivity().getIntent();
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            searchAllFilms(query);
+        }
+    }
+
+    private void searchAllFilms(String query) {
+        
     }
 
     @Nullable
@@ -41,6 +55,21 @@ public class ListAllFilmsFragment extends NavFragment {
         mFilmListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         updateUI();
+
+        mSearchView = (SearchView) v.findViewById(R.id.search_view);
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                mAdapter.filter(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mAdapter.filter(newText);
+                return true;
+            }
+        });
 
         return v;
     }
@@ -140,6 +169,24 @@ public class ListAllFilmsFragment extends NavFragment {
         @Override
         public int getItemCount() {
             return mFilms.size();
+        }
+
+        public void filter(String query) {
+            mFilms = new ArrayList<>();
+            if(query.isEmpty()){
+                mFilms.addAll(criterionCollection.getFilms());
+            } else{
+                query = query.toLowerCase();
+                for(Film film: criterionCollection.getFilms()){
+                    if(film.getTitle().toLowerCase().contains(query) ||
+                            film.getCountry().toLowerCase().contains(query) ||
+                            film.getYear().contains(query) ||
+                            film.getDirector().toLowerCase().contains(query)){
+                        mFilms.add(film);
+                    }
+                }
+            }
+            notifyDataSetChanged();
         }
     }
 }
