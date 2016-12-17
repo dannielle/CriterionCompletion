@@ -17,6 +17,10 @@ public class Film {
         mId = UUID.randomUUID();
     }
 
+    public Film(UUID uuid) {
+        mId = uuid;
+    }
+
     public String getTitle() {
         return mTitle;
     }

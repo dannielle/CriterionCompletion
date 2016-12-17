@@ -1,5 +1,6 @@
 package com.dee.android.criterioncompletion;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ public class FilmFragment extends Fragment {
     private CheckBox mHasWatchedCheckBox;
     private Button mFavoritesButton;
     private RatingBar mRatingBar;
+    private CriterionCollection criterionCollection;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,7 @@ public class FilmFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        criterionCollection = CriterionCollection.get(getActivity());
         View v = inflater.inflate(R.layout.fragment_film, container, false);
 
         mTitleField = (TextView) v.findViewById(R.id.film_detail_title);
@@ -41,6 +44,7 @@ public class FilmFragment extends Fragment {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
                 mFilm.setRating(v);
+                criterionCollection.updateFilmInDb(mFilm);
             }
         });
 
@@ -50,6 +54,7 @@ public class FilmFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 mFilm.setHasWatched(b);
+                criterionCollection.updateFilmInDb(mFilm);
             }
         });
 
@@ -58,6 +63,7 @@ public class FilmFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 mFilm.setFavorite(true);
+                criterionCollection.updateFilmInDb(mFilm);
                 view.setEnabled(false);
             }
         });

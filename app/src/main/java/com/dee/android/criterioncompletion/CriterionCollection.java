@@ -1,21 +1,28 @@
 package com.dee.android.criterioncompletion;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
-import com.opencsv.CSVReader;
+import com.dee.android.criterioncompletion.database.DbSchema;
+import com.dee.android.criterioncompletion.database.FilmBaseHelper;
+import com.dee.android.criterioncompletion.database.FilmCursorWrapper;
 
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public class CriterionCollection {
 
+    private Context mContext;
+
     private static CriterionCollection sCriterionCollection;
 
     private List<Film> mFilms;
+    private FilmBaseHelper mFilmBaseHelper;
+
+    SQLiteDatabase mDatabase;
 
     public static CriterionCollection get(Context context) {
         if (sCriterionCollection == null) {
@@ -25,57 +32,62 @@ public class CriterionCollection {
     }
 
     private CriterionCollection(Context context) {
-        mFilms = new ArrayList<>();
-
-        String next[] = {};
-
-        try {
-            CSVReader reader = new CSVReader(new InputStreamReader(context.getAssets().open("full_criterion_collection_list.csv")));
-
-            for(;;) {
-                next = reader.readNext();
-                if (next != null) {
-                    Film film = new Film();
-                    film.setTitle(next[0]);
-                    film.setDirector(next[1]);
-                    film.setYear(next[2]);
-                    film.setCountry(next[3]);
-                    mFilms.add(film);
-                } else {
-                    break;
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        mContext = context.getApplicationContext();
+        mFilmBaseHelper = new FilmBaseHelper(mContext);
+        mDatabase = mFilmBaseHelper.getWritableDatabase();
+        mFilms = getFilms();
     }
 
     public List<Film> getFilms() {
-        return mFilms;
+        List<Film> films = new ArrayList<>();
+
+        FilmCursorWrapper cursor = queryFilms(null, null);
+
+        try {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                films.add(cursor.getFilm());
+                cursor.moveToNext();
+            }
+        } finally {
+            cursor.close();
+        }
+
+        return films;
+    }
+
+    private FilmCursorWrapper queryFilms(String whereClause, String[] whereArgs) {
+        Cursor cursor = mDatabase.query(
+                DbSchema.FilmTable.NAME,
+                null,
+                whereClause,
+                whereArgs,
+                null,
+                null,
+                null
+        );
+        return new FilmCursorWrapper(cursor);
     }
 
     public Film getFilm(UUID id) {
-        for (Film film : mFilms) {
-            if (film.getId().equals(id)) {
-                return film;
+        FilmCursorWrapper cursor = queryFilms(
+                DbSchema.FilmTable.Cols.UUID + " = ?",
+                new String[] { id.toString() }
+        );
+
+        try {
+            if (cursor.getCount() == 0) {
+                return null;
             }
+            cursor.moveToFirst();
+            return cursor.getFilm();
+        } finally {
+            cursor.close();
         }
-        return null;
     }
 
-    public void fave(Film film) {
-        film.setFavorite(true);
-    }
-
-    public List<Film> getFavoriteFilms() {
-        List<Film> faves = new ArrayList<>();
-        for(Film film : mFilms) {
-            if (film.isFavorite()){
-                faves.add(film);
-            }
-        }
-        return faves;
+    public void updateFilmInDb(Film film) {
+        mFilmBaseHelper.updateFilm(film, mDatabase);
     }
 
     public void watched(Film film, boolean b) {
@@ -83,13 +95,39 @@ public class CriterionCollection {
     }
 
     public List<Film> getWatchedFilms() {
-        List<Film> watched = new ArrayList<>();
-        for(Film film : mFilms) {
-            if (film.hasWatched()){
-                watched.add(film);
+        List<Film> watchedFilms = new ArrayList<>();
+
+        FilmCursorWrapper cursor = queryFilms(DbSchema.FilmTable.Cols.HAS_WATCHED + "=1", null);
+
+        try {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                watchedFilms.add(cursor.getFilm());
+                cursor.moveToNext();
             }
+        } finally {
+            cursor.close();
         }
-        return watched;
+
+        return watchedFilms;
+    }
+
+    public List<Film> getFavoriteFilms() {
+        List<Film> watchedFilms = new ArrayList<>();
+
+        FilmCursorWrapper cursor = queryFilms(DbSchema.FilmTable.Cols.IS_FAVORITE + "=1", null);
+
+        try {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                watchedFilms.add(cursor.getFilm());
+                cursor.moveToNext();
+            }
+        } finally {
+            cursor.close();
+        }
+
+        return watchedFilms;
     }
 
     public void rate(Film film, float v) {
