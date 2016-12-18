@@ -23,8 +23,6 @@ public class MyFavoritesFragment extends NavFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_my_favorites, container, false);
 
-        setToolbar("Favs", v);
-
         mFavoriteListRecyclerView = (RecyclerView) v.findViewById(R.id.favorite_films_recycler_view);
         mFavoriteListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 

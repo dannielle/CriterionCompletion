@@ -1,6 +1,5 @@
 package com.dee.android.criterioncompletion;
 
-import android.app.SearchManager;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -10,8 +9,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -28,28 +25,10 @@ public class ListAllFilmsFragment extends NavFragment {
     private CriterionCollection criterionCollection;
     private SearchView mSearchView;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-
-        Intent intent = getActivity().getIntent();
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            searchAllFilms(query);
-        }
-    }
-
-    private void searchAllFilms(String query) {
-        
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_all_films, container, false);
-
-        setToolbar("All", v);
 
         mFilmListRecyclerView = (RecyclerView) v.findViewById(R.id.all_films_recycler_view);
         mFilmListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -78,12 +57,6 @@ public class ListAllFilmsFragment extends NavFragment {
     public void onResume() {
         super.onResume();
         updateUI();
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.fragment_all_films, menu);
     }
 
     private void updateUI() {

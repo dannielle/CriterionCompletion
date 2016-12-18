@@ -27,8 +27,6 @@ public class MyProgressFragment extends NavFragment {
         View v = inflater.inflate(R.layout.fragment_my_progress, container, false);
         criterionCollection = CriterionCollection.get(getActivity());
 
-        setToolbar("My Progress", v);
-
         mProgressNumberView = (TextView) v.findViewById(R.id.progress_number);
 
         mWatchedListRecyclerView = (RecyclerView) v.findViewById(R.id.watched_films_recycler_view);
