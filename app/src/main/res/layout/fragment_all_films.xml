@@ -8,7 +8,31 @@
     <android.support.v7.widget.SearchView
         android:id="@+id/search_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></android.support.v7.widget.SearchView>
+        android:layout_height="wrap_content"
+        android:queryHint="@string/search_by_title_director_etc">
+
+    </android.support.v7.widget.SearchView>
+
+    <RadioGroup
+        android:id="@+id/sort_radio_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/sort_by_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sort_by_title"/>
+        <RadioButton
+            android:id="@+id/sort_by_year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sort_by_year"/>
+        <RadioButton
+            android:id="@+id/sort_by_country"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sort_by_country"/>
+    </RadioGroup>
 
     <android.support.v7.widget.RecyclerView
         xmlns:android="http://schemas.android.com/apk/res/android"

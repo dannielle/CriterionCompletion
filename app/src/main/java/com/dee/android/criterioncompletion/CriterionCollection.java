@@ -22,6 +22,7 @@ public class CriterionCollection {
     private FilmBaseHelper mFilmBaseHelper;
 
     SQLiteDatabase mDatabase;
+    private String mOrderBy;
 
     public static CriterionCollection get(Context context) {
         if (sCriterionCollection == null) {
@@ -40,7 +41,7 @@ public class CriterionCollection {
     public List<Film> getFilms() {
         List<Film> films = new ArrayList<>();
 
-        FilmCursorWrapper cursor = queryFilms(null, null);
+        FilmCursorWrapper cursor = queryFilms(null, null, mOrderBy);
 
         try {
             cursor.moveToFirst();
@@ -55,7 +56,7 @@ public class CriterionCollection {
         return films;
     }
 
-    private FilmCursorWrapper queryFilms(String whereClause, String[] whereArgs) {
+    private FilmCursorWrapper queryFilms(String whereClause, String[] whereArgs, String orderByClause) {
         Cursor cursor = mDatabase.query(
                 DbSchema.FilmTable.NAME,
                 null,
@@ -63,7 +64,7 @@ public class CriterionCollection {
                 whereArgs,
                 null,
                 null,
-                null
+                orderByClause
         );
         return new FilmCursorWrapper(cursor);
     }
@@ -71,7 +72,8 @@ public class CriterionCollection {
     public Film getFilm(UUID id) {
         FilmCursorWrapper cursor = queryFilms(
                 DbSchema.FilmTable.Cols.UUID + " = ?",
-                new String[] { id.toString() }
+                new String[] { id.toString() },
+                null
         );
 
         try {
@@ -107,7 +109,7 @@ public class CriterionCollection {
     public List<Film> getWatchedFilms() {
         List<Film> watchedFilms = new ArrayList<>();
 
-        FilmCursorWrapper cursor = queryFilms(DbSchema.FilmTable.Cols.HAS_WATCHED + "=1", null);
+        FilmCursorWrapper cursor = queryFilms(DbSchema.FilmTable.Cols.HAS_WATCHED + "=1", null, null);
 
         try {
             cursor.moveToFirst();
@@ -125,7 +127,7 @@ public class CriterionCollection {
     public List<Film> getFavoriteFilms() {
         List<Film> watchedFilms = new ArrayList<>();
 
-        FilmCursorWrapper cursor = queryFilms(DbSchema.FilmTable.Cols.IS_FAVORITE + "=1", null);
+        FilmCursorWrapper cursor = queryFilms(DbSchema.FilmTable.Cols.IS_FAVORITE + "=1", null, null);
 
         try {
             cursor.moveToFirst();
@@ -140,4 +142,20 @@ public class CriterionCollection {
         return watchedFilms;
     }
 
+    public void setOrder(String order) {
+        switch (order) {
+            case "title" :
+                mOrderBy = DbSchema.FilmTable.Cols.TITLE + " ASC";
+                break;
+            case "country" :
+                mOrderBy = DbSchema.FilmTable.Cols.COUNTRY + " ASC";
+                break;
+            case "year" :
+                mOrderBy = DbSchema.FilmTable.Cols.YEAR + " ASC";
+                break;
+            default:
+                mOrderBy = null;
+        }
+        mFilms = getFilms();
+    }
 }

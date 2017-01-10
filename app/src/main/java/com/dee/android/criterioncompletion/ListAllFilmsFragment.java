@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class ListAllFilmsFragment extends NavFragment {
     private ListAllFilmsAdapter mAdapter;
     private CriterionCollection criterionCollection;
     private SearchView mSearchView;
+    private RadioGroup mRadioGroupView;
 
     @Nullable
     @Override
@@ -47,6 +49,30 @@ public class ListAllFilmsFragment extends NavFragment {
             public boolean onQueryTextChange(String newText) {
                 mAdapter.filter(newText);
                 return true;
+            }
+        });
+
+        mRadioGroupView = (RadioGroup) v.findViewById(R.id.sort_radio_group);
+        mRadioGroupView.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
+                switch(checkedId) {
+                    case R.id.sort_by_title:
+                        criterionCollection.setOrder("title");
+                        break;
+                    case R.id.sort_by_country:
+                        criterionCollection.setOrder("country");
+                        break;
+                    case R.id.sort_by_year:
+                        criterionCollection.setOrder("year");
+                        break;
+                    case -1:
+                        criterionCollection.setOrder("title");
+                        break;
+                    default:
+                        break;
+                }
+                updateUI();
             }
         });
 
