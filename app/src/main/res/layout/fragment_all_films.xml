@@ -13,26 +13,41 @@
 
     </android.support.v7.widget.SearchView>
 
-    <RadioGroup
-        android:id="@+id/sort_radio_group"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <RadioButton
-            android:id="@+id/sort_by_title"
+        <RadioGroup
+            android:id="@+id/sort_radio_group"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <RadioButton
+                android:id="@+id/sort_by_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sort_by_title"
+                android:checked="true"/>
+            <RadioButton
+                android:id="@+id/sort_by_year"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sort_by_year"/>
+            <RadioButton
+                android:id="@+id/sort_by_country"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sort_by_country"/>
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/expand_collapse_button"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/sort_by_title"/>
-        <RadioButton
-            android:id="@+id/sort_by_year"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/sort_by_year"/>
-        <RadioButton
-            android:id="@+id/sort_by_country"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/sort_by_country"/>
-    </RadioGroup>
+            android:text="Collapse"
+            android:gravity="center"
+            android:clickable="true"/>
+
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         xmlns:android="http://schemas.android.com/apk/res/android"

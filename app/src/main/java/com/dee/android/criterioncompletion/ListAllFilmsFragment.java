@@ -76,6 +76,21 @@ public class ListAllFilmsFragment extends NavFragment {
             }
         });
 
+        final TextView expandCollapseToggle = (TextView) v.findViewById(R.id.expand_collapse_button);
+        expandCollapseToggle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mRadioGroupView.getVisibility() == View.VISIBLE) {
+                    mRadioGroupView.setVisibility(View.GONE);
+                    expandCollapseToggle.setText("Expand");
+                }
+                else {
+                    mRadioGroupView.setVisibility(View.VISIBLE);
+                    expandCollapseToggle.setText("Collapse");
+                }
+            }
+        });
+
         return v;
     }
 
